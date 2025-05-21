@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TameXPro Maritime Software</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #003366, #004080);
+      color: white;
+    }
+    header {
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .logo {
+      max-height: 100px;
+      margin-bottom: 10px;
+    }
+    h1 {
+      margin: 10px 0 5px;
+    }
+    .tabs {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin: 20px 0;
+    }
+    .tab-button {
+      padding: 10px 20px;
+      background: white;
+      color: #003366;
+      margin: 5px;
+      border: none;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .tab-button:hover {
+      background: #ccccff;
+    }
+    .tab-content {
+      display: none;
+      padding: 20px;
+      background: white;
+      color: #003366;
+      max-width: 800px;
+      margin: 0 auto;
+      border-radius: 10px;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    .section {
+      padding: 40px 20px;
+      text-align: center;
+    }
+    .button {
+      padding: 10px 20px;
+      background: #ff6600;
+      color: white;
+      border-radius: 5px;
+      text-decoration: none;
+      margin-top: 20px;
+      display: inline-block;
+    }
+    footer {
+      background: #001f3f;
+      padding: 20px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <img src="logo.png" alt="TameXPro Logo" class="logo" />
+    <h1>TameXPro Maritime Software</h1>
+    <p>Automated Solutions for Deck and Engine Officers</p>
+  </header>
+
+  <div class="tabs">
+    <button class="tab-button" onclick="showTab('draft')">Draft Survey</button>
+    <button class="tab-button" onclick="showTab('ballast')">Ballast</button>
+    <button class="tab-button" onclick="showTab('bunker')">Bunker</button>
+  </div>
+
+  <div class="tab-content active" id="draft">
+    <h2>Draft Survey Automation</h2>
+    <p>Automatically calculate cargo load/discharge drafts with precision and speed.</p>
+  </div>
+  <div class="tab-content" id="ballast">
+    <h2>Ballast Calculation</h2>
+    <p>Manage and calculate ballast distribution with minimal effort.</p>
+  </div>
+  <div class="tab-content" id="bunker">
+    <h2>Bunker Calculation</h2>
+    <p>Track and convert bunker fuel figures automatically and accurately.</p>
+  </div>
+
+  <div class="section">
+    <h2>Contact Us</h2>
+    <p>Email: <a href="mailto:tamexpro147@gmail.com">tamexpro147@gmail.com</a></p>
+    <a class="button" href="mailto:tamexpro147@gmail.com">Get in Touch</a>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 TameXPro. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function showTab(id) {
+      const contents = document.querySelectorAll('.tab-content');
+      contents.forEach(content => content.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
+  </script>
+</body>
+</html>
