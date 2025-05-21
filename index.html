@@ -82,11 +82,106 @@
       padding: 15px;
       margin-top: 40px;
     }
+
+    /* --- Floating Buttons --- */
+    .floating-buttons {
+      position: fixed;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      z-index: 1000;
+    }
+    .floating-buttons button {
+      padding: 12px 20px;
+      background-color: #FF851B;
+      color: #001f3f;
+      font-weight: bold;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      transition: background-color 0.3s;
+    }
+    .floating-buttons button:hover {
+      background-color: #ff6a00;
+      color: white;
+    }
+
+    /* --- Product Details Popup --- */
+    .product-details {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 350px;
+      max-width: 90%;
+      background: rgba(255, 255, 255, 0.97);
+      color: #001f3f;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+      padding: 25px 20px 20px 20px;
+      transform: translate(-50%, -50%);
+      z-index: 2000;
+      display: none;
+      font-weight: 600;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .product-details h2 {
+      margin-bottom: 12px;
+      font-size: 24px;
+      text-align: center;
+    }
+    .product-details img {
+      display: block;
+      margin: 0 auto 15px auto;
+      max-width: 200px;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .product-details p {
+      font-weight: 400;
+      margin-bottom: 12px;
+      line-height: 1.4;
+      text-align: center;
+    }
+    .product-details strong {
+      display: block;
+      font-size: 18px;
+      color: #FF851B;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    .product-details .close-btn {
+      background: none;
+      border: none;
+      font-size: 28px;
+      color: #ff4c00;
+      cursor: pointer;
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-weight: 700;
+      transition: color 0.2s;
+    }
+    .product-details .close-btn:hover {
+      color: #d63e00;
+    }
+
+    /* --- Overlay behind popup --- */
+    .overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 1500;
+      display: none;
+    }
   </style>
 </head>
 <body>
   <header>
-    <img src="logo.png" alt="TameXPro Logo" class="logo">
+    <img src="logo.png" alt="TameXPro Logo" class="logo" />
     <h1>TameXPro Maritime Software</h1>
     <p>Automated Solutions for Deck and Engine Professionals</p>
   </header>
@@ -123,5 +218,90 @@
   <footer>
     <p>&copy; 2025 TameXPro. All rights reserved.</p>
   </footer>
+
+  <!-- Floating Buttons -->
+  <div class="floating-buttons" aria-label="Product quick access">
+    <button data-product="draft">Draft Survey</button>
+    <button data-product="ballast">Ballast Calculation</button>
+    <button data-product="bunker">Bunker Calculation</button>
+  </div>
+
+  <!-- Overlay -->
+  <div class="overlay" tabindex="-1"></div>
+
+  <!-- Product Details Popup -->
+  <div class="product-details" role="dialog" aria-modal="true" aria-labelledby="product-title">
+    <div class="details-content">
+      <!-- Dynamic content loads here -->
+    </div>
+  </div>
+
+  <script>
+    const buttons = document.querySelectorAll('.floating-buttons button');
+    const popup = document.querySelector('.product-details');
+    const overlay = document.querySelector('.overlay');
+    const detailsContent = popup.querySelector('.details-content');
+
+    // Product details data with images
+    const productDetails = {
+      draft: {
+        name: "Draft Survey Automation",
+        description: "Automatically calculate cargo load/discharge drafts with precision and speed. Our software reduces manual errors and speeds up your workflow.",
+        price: "Included in subscription",
+        img: "https://via.placeholder.com/200x120?text=Draft+Survey"
+      },
+      ballast: {
+        name: "Ballast Calculation",
+        description: "Manage and calculate ballast distribution with minimal effort, ensuring optimal stability and compliance with maritime regulations.",
+        price: "Included in subscription",
+        img: "https://via.placeholder.com/200x120?text=Ballast+Calculation"
+      },
+      bunker: {
+        name: "Bunker Calculation",
+        description: "Track and convert bunker fuel figures automatically and accurately, helping you maintain fuel efficiency and cost savings.",
+        price: "Included in subscription",
+        img: "https://via.placeholder.com/200x120?text=Bunker+Calculation"
+      }
+    };
+
+    function showDetails(key) {
+      const product = productDetails[key];
+      if (!product) return;
+
+      detailsContent.innerHTML = `
+        <button class="close-btn" aria-label="Close details">&times;</button>
+        <h2 id="product-title">${product.name}</h2>
+        <img src="${product.img}" alt="${product.name} Image" />
+        <p>${product.description}</p>
+        <strong>Price: ${product.price}</strong>
+      `;
+      popup.style.display = 'block';
+      overlay.style.display = 'block';
+
+      // Bind close button event
+      popup.querySelector('.close-btn').addEventListener('click', hideDetails);
+
+      // Accessibility: focus on popup
+      popup.setAttribute('tabindex', '-1');
+      popup.focus();
+    }
+
+    function hideDetails() {
+      popup.style.display = 'none';
+      overlay.style.display = 'none';
+    }
+
+    buttons.forEach(button => {
+      button.addEventListener('click', () => showDetails(button.getAttribute('data-product')));
+    });
+
+    overlay.addEventListener('click', hideDetails);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && popup.style.display === 'block') {
+        hideDetails();
+      }
+    });
+  </script>
 </body>
 </html>
